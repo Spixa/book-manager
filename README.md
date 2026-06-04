@@ -1,2 +1,2 @@
 # book-manager
-uni project to demonstrate git
+Modular GUI eBook manager using Java Swing
