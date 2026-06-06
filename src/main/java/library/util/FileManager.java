@@ -3,6 +3,7 @@ package main.java.library.util;
 import main.java.library.model.Book;
 
 import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,5 +74,34 @@ public class FileManager {
         } catch (IOException e) {
             System.err.println("Failed to save books: " + e.getMessage());
         }
+    }
+
+    public static void writeBookText(String filePath, String content) throws IOException {
+        File file = new File(BOOKS_TEXT_DIR + filePath);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(content); // no need to catch [as stated in the exercise]
+        }
+    }
+
+    public static String readFullText(String filePath) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return "";
+        }
+
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append('\n');
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to read file: " + e.getMessage());
+            return "";
+        }
+
+        return content.toString();
     }
 }
