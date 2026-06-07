@@ -76,4 +76,12 @@ public class LibraryService {
         }
         return true;
     }
+
+    public List<String> getBookPages(Book book, int linesPerPage) {
+        return FileManager.readBookPages(book.getTextFilePath(), linesPerPage);
+    }
+
+    public int countLines(Book book) {
+        return FileManager.countLines(book.getTextFilePath());
+    }
 }

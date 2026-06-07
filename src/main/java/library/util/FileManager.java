@@ -105,4 +105,60 @@ public class FileManager {
 
         return content.toString();
     }
+
+    public static List<String> readBookPages(String filePath, int linesPerPage) {
+        List<String> pages = new ArrayList<>();
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            pages.add("File not found: " + filePath);
+            return pages;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            StringBuilder page = new StringBuilder();
+            String line;
+            int lineCount = 0;
+
+            while ((line = reader.readLine()) != null) {
+                page.append(line).append("\n");
+                lineCount++;
+
+                if (lineCount == linesPerPage) {
+                    pages.add(page.toString());
+                    page = new StringBuilder();
+                    lineCount = 0;
+                }
+            }
+
+            if (!page.isEmpty()) {
+                pages.add(page.toString());
+            }
+
+        } catch (IOException e) {
+            pages.add("Error reading file: " + e.getMessage());
+        }
+
+        return pages;
+    }
+
+    public static int countLines(String filePath) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return 0;
+        }
+
+        int count = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            while (reader.readLine() != null) {
+                count++;
+            }
+        } catch (IOException e) {
+            System.err.println("Error counting lines: " + e.getMessage());
+        }
+
+        return count;
+    }
 }
