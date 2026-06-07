@@ -78,7 +78,7 @@ public class FileManager {
     }
 
     public static void writeBookText(String filePath, String content) throws IOException {
-        File file = new File(BOOKS_TEXT_DIR + filePath);
+        File file = new File(filePath);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(content); // no need to catch [as stated in the exercise]
