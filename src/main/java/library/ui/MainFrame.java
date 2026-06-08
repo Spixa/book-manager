@@ -33,13 +33,16 @@ public class MainFrame extends JFrame {
         if (contentPanel != null) remove(contentPanel);
 
         contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setLayout(new BorderLayout());
 
         JButton refreshBtn = new JButton("Refresh");
         refreshBtn.addActionListener(e -> showBooksList());
-        contentPanel.add(refreshBtn);
+        contentPanel.add(refreshBtn, BorderLayout.NORTH);
 
         List<Book> books = service.getAllBooks();
+
+        JPanel booksPanel = new JPanel();
+        booksPanel.setLayout(new GridLayout(0, 1, 5, 5));
 
         for (Book book : books) {
             JButton bookBtn = new JButton(book.toString());
@@ -47,12 +50,15 @@ public class MainFrame extends JFrame {
                 selectedBook = book;
                 showBookMenu();
             });
-            contentPanel.add(bookBtn);
+            booksPanel.add(bookBtn);
         }
 
         if (books.isEmpty()) {
             contentPanel.add(new JLabel("No books available"));
         }
+
+        JScrollPane scrollPane = new JScrollPane(booksPanel);
+        contentPanel.add(scrollPane, BorderLayout.CENTER);
 
         add(contentPanel, BorderLayout.CENTER);
         revalidate();
